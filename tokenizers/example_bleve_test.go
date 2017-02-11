@@ -78,6 +78,12 @@ func Example_beleveSearch() {
 		index.Index(doc.Title, doc)
 	}
 
+	bleve.Config.Cache.DefineFragmentFormatter("html",
+		map[string]interface{}{
+			"before": "<span class=\"highlight\">",
+			"after":  "</span>",
+		})
+
 	// search for some text
 	for _, keyword := range []string{"水果世博园", "你", "first", "中文", "交换机", "交换"} {
 		query := bleve.NewQueryStringQuery(keyword)

@@ -6,7 +6,7 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"github.com/wangbin/jiebago"
+	"github.com/julianshen/jiebago"
 )
 
 // Segment represents a word with weight.
@@ -112,4 +112,9 @@ func (t *TagExtracter) ExtractTags(sentence string, topK int) (tags Segments) {
 		tags = ws
 	}
 	return tags
+}
+
+// for exposing Sementer
+func (t *TagExtracter) Segmenter() *jiebago.Segmenter {
+	return t.Segmenter
 }

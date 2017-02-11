@@ -17,6 +17,48 @@ type DictLoader interface {
 	AddToken(Token)
 }
 
+func loadStopwords(file *os.File) (<-chan Token, <-chan error) {
+	tokenCh, errCh := make(chan Token), make(chan error)
+
+	go func() {
+		defer close(tokenCh)
+		defer close(errCh)
+		scanner := bufio.NewScanner(file)
+		var token Token
+		var line string
+		var err error
+		for scanner.Scan() {
+			line = scanner.Text()
+			token.text = strings.TrimSpace(strings.Replace(line, "\ufeff", "", 1))
+
+			tokenCh <- token
+		}
+
+		if err = scanner.Err(); err != nil {
+			errCh <- err
+		}
+	}()
+	return tokenCh, errCh
+
+}
+
+func LoadStopwords(dl DictLoader, fileName string) error {
+	filePath, err := dictPath(fileName)
+	if err != nil {
+		return err
+	}
+	dictFile, err := os.Open(filePath)
+	if err != nil {
+		return err
+	}
+	defer dictFile.Close()
+	tokenCh, errCh := loadStopwords(dictFile)
+	dl.Load(tokenCh)
+
+	return <-errCh
+
+}
+
 func loadDictionary(file *os.File) (<-chan Token, <-chan error) {
 	tokenCh, errCh := make(chan Token), make(chan error)
 

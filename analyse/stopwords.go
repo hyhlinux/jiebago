@@ -79,5 +79,5 @@ func (s *StopWord) Load(ch <-chan dictionary.Token) {
 }
 
 func (s *StopWord) loadDictionary(fileName string) error {
-	return dictionary.LoadDictionary(s, fileName)
+	return dictionary.LoadStopwords(s, fileName)
 }

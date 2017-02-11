@@ -101,6 +101,7 @@ func Example_beleveSearch() {
 			fmt.Printf("%s\n", rv)
 		}
 	}
+	os.RemoveAll(cacheDir)
 	// Output:
 	// Result of "水果世博园": 2 matches:
 	// 1. Doc 3, (1.099550)

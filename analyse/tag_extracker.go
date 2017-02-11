@@ -116,5 +116,5 @@ func (t *TagExtracter) ExtractTags(sentence string, topK int) (tags Segments) {
 
 // for exposing Sementer
 func (t *TagExtracter) Segmenter() *jiebago.Segmenter {
-	return t.Segmenter
+	return t.seg
 }
